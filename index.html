@@ -1,0 +1,78 @@
+import tkinter as tk
+from tkinter import messagebox
+import random
+import sys
+
+def on_yes():
+    messagebox.showinfo("Result", "Bakla ka pala ah HAHAHA")
+    root.destroy()
+
+def on_no(event=None):
+    # Move button to random valid position
+    x_max = root.winfo_width() - btn_no.winfo_width() - 20
+    y_max = root.winfo_height() - btn_no.winfo_height() - 20
+    x = random.randint(20, max(20, x_max))
+    y = random.randint(20, max(20, y_max))
+    btn_no.place(x=x, y=y)
+
+# Handle high-DPI displays (for Windows/macOS compatibility)
+if sys.platform.startswith("win"):
+    try:
+        from ctypes import windll
+        windll.shcore.SetProcessDpiAwareness(1)
+    except:
+        pass
+elif sys.platform == "darwin":
+    try:
+        root = tk.Tk()
+        root.tk.call("tk", "scaling", 2.0)
+    except:
+        pass
+
+# Create main window
+root = tk.Tk()
+root.title("Are u gay?")
+root.geometry("500x350")  # Increased width to fit new button positions
+root.minsize(500, 280)
+
+# Title label
+label = tk.Label(
+    root, 
+    text="Are u gay? 🤔", 
+    font=("Arial", 20 if sys.platform != "linux" else 18),
+    padx=10,
+    pady=10
+)
+label.pack(pady=60)
+
+# Yes button (position set to x=50, y=200)
+btn_yes = tk.Button(
+    root, 
+    text="Yes", 
+    font=("Arial", 14), 
+    command=on_yes, 
+    width=10,
+    padx=5
+)
+btn_yes.place(x=50, y=200)
+
+# No button (initial position set to x=400, y=200)
+btn_no = tk.Button(
+    root, 
+    text="No", 
+    font=("Arial", 14), 
+    width=10,
+    padx=5
+)
+btn_no.place(x=400, y=200)
+btn_no.bind("<Enter>", on_no)
+btn_no.bind("<Button-1>", on_no)
+
+# Center window on screen
+root.update_idletasks()
+x = (root.winfo_screenwidth() // 2) - (root.winfo_width() // 2)
+y = (root.winfo_screenheight() // 2) - (root.winfo_height() // 2)
+root.geometry(f"+{x}+{y}")
+
+root.mainloop()
+		
